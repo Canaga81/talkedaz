@@ -3,6 +3,7 @@ import { CommonEntity } from "./Common.entity";
 import { UserGender, UserRole } from "src/shared/enum/user.enum";
 import { ImageEntity } from "./Image.entity";
 
+
 import * as bcrypt from 'bcrypt';
 
 
@@ -40,6 +41,12 @@ export class User extends CommonEntity {
     })
     gender: UserGender;
 
+    @Column( { nullable: true } )
+    activationToken: string;
+
+    @Column( { nullable: true } )
+    activationExpire: Date;
+
     @Column({
         type: 'enum',
         enum: UserRole,
@@ -50,6 +57,10 @@ export class User extends CommonEntity {
     @BeforeInsert()
     beforeInsert() {
         this.password = bcrypt.hashSync(this.password, 10);
+    }
+
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`
     }
 
 }

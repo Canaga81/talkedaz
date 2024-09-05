@@ -31,4 +31,8 @@ export class UserService {
 
     }
 
+    async update(id:number, params: Partial<User>) {
+        await this.userRepo.update( { id }, params );
+    }
+
 }
